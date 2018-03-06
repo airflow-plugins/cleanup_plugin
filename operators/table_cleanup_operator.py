@@ -12,6 +12,9 @@ class TableCleanupOperator(BaseOperator):
     """
     Table Cleanup Operator
 
+    This operator looks for tables in a specified database and schema and
+    drops any that contain a specified key.
+
     :param db_conn_id:          The database connection id.
     :type db_conn_id:           string
     :param db_type:             The type of database being connected to.
