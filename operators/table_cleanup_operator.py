@@ -1,6 +1,7 @@
 from sqlalchemy import and_
 import time
 import logging
+
 from airflow.utils.decorators import apply_defaults
 from airflow.utils.db import provide_session
 from airflow.models import BaseOperator, DagRun
@@ -64,8 +65,8 @@ class TableCleanupOperator(BaseOperator):
 
         if not isinstance(self.sleep_duration, int):
             raise ValueError('Please specify "sleep_duration" as an integer.')
+
     def execute(self, context):
-        hook = PostgresHook(self.db_conn_id)
 
         if self.dag_dependencies:
             self.check_for_dependencies()
@@ -76,6 +77,8 @@ class TableCleanupOperator(BaseOperator):
         FROM information_schema.tables
         WHERE table_schema = '{0}'
         """.format(self.db_schema)
+
+        hook = PostgresHook(self.db_conn_id)
 
         records = [record[0] for record in hook.get_records(tables_sql)]
 
